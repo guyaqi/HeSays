@@ -1,0 +1,24 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="120"
+    height="120"
+    version="1.1">
+    <path
+        d="M0 0 L120 0 L 120 120 L0 120"
+        style="fill:white;"
+    />
+    <path
+        d="M40 60 L80 60"
+        style="fill:white;"
+        stroke="lightsalmon"
+        stroke-width="6"
+        stroke-linecap="round"
+    />
+    <path
+        d="M60 40 L60 80"
+        style="fill:white;"
+        stroke="lightsalmon"
+        stroke-width="6"
+        stroke-linecap="round"
+    />
+</svg>

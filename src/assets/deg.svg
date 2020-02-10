@@ -1,0 +1,10 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="25"
+    version="1.1">
+    <path
+        d="M20 25 C10 25 0 2 1 1 C2 0 5 3 10 5 C15 7 20 5 20 5"
+        style="fill:white;"
+    />
+</svg>
