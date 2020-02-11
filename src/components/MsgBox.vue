@@ -19,6 +19,9 @@ export default {
 </script>
 
 <style>
+.msg-box-root {
+  display: flex;
+}
 .msg {
   font-size: 45px;
   color: black;
@@ -31,6 +34,7 @@ export default {
   margin-top: 10px;
   margin-left: 20px;
   max-width: 80%;
+  flex-shrink: 1;
 }
 .msg::placeholder {
   color: black;
