@@ -1,22 +1,14 @@
 <template>
   <div class="root" @touchmove="move" @touchend="end">
-    <div class="main">
+    <div class="main" id="sc-area">
       <img class="avatar" :src="avatarUrl" />
       <div class="right">
-        <input class="nickname" type="text" placeholder="受害者" />
-        <div class="msg-wrapper">
-          <textarea class="msg" :style="textStyle">我什么都没说过!</textarea>
-          <div
-            class="control"
-            @touchstart="start"
-            v-show="showResizer"
-            ></div>
-        </div>
+        <input class="nickname" type="text" placeholder="(请输入昵称)" v-model="nickname" />
+        <MsgBox></MsgBox>
       </div>
     </div>
     <div class="btn-group">
-      <button class="btn" v-show="!showResizer" @click="showResizer=true">show resizer</button>
-      <button class="btn" v-show="showResizer" @click="showResizer=false">hide resizer</button>
+      <button class="btn" @click="screenCut">📷✨✨</button>
     </div>
     
     <div class="avatar-list">
@@ -32,37 +24,52 @@
       </div>
       
     </div>
+
+    <Log v-show="debug"></Log>
+
+    <ImageView
+      v-show="showScreenShot"
+      :src="screenShot"
+      @close="showScreenShot=false"
+      ></ImageView>
   </div>
 </template>
 
 <script>
+import Log from './components/Log'
+import ImageView from './components/ImageView'
+import html2canvas from 'html2canvas'
+import MsgBox from './components/MsgBox'
+
 export default {
+  components: {
+    Log,
+    ImageView,
+    MsgBox
+  },
   data() {
     return {
-      th: 500,
-      tw: 500,
+      nickname: '受害者',
       sizing: false,
       lastX: 0,
       lastY: 0,
-      showResizer: false,
       oriList: [
         require('./assets/ztl_avatar.jpg'),
-        require('./assets/lbl_avatar.jpg'),
+        require('./assets/gyq_avatar.jpg'),
+        require('./assets/wk_avatar.jpg'),
       ],
       cachedList: [],
       avatarIndex: 0,
+      screenShot: '',
+      showScreenShot: false,
+      debug: false,
     }
   },
   computed: {
     avatarList() {
       return this.oriList.concat(this.cachedList)
     },
-    textStyle() {
-      return {
-        height: this.th + 'px',
-        width: this.tw + 'px'
-      }
-    },
+
     avatarUrl() {
       return this.avatarList[this.avatarIndex]
     }
@@ -111,6 +118,14 @@ export default {
       a.readAsDataURL(file);
 
       // this.avatarList.push(file)
+    },
+    screenCut() {
+      this.showScreenShot = true
+      let that = this
+      html2canvas(document.querySelector('#sc-area')).then(function(canvas) {
+        that.screenShot = canvas.toDataURL()
+          // document.body.appendChild(canvas);
+      });
     }
   }
 }
@@ -154,34 +169,7 @@ export default {
   border: none;
   background: transparent;
 }
-.msg {
-  font-size: 45px;
-  color: black;
-  padding: 40px 35px;
-  background: white;
-  border-radius: 40px;
-  
-  border: none;
-  
-}
-.msg::placeholder {
-  color: black;
-}
-.msg-wrapper {
-  position: relative;
-  margin-top: 10px;
-  margin-left: 20px;
-}
-.msg-wrapper::before {
-  position: absolute;
-  z-index: 1;
-  content: "";
-  height: 25px;
-  width: 20px;
-  top: 23px;
-  left: -18px;
-  background-image: url("./assets/deg.svg")
-}
+
 .control {
   height: 70px;
   width: 70px;
@@ -192,8 +180,11 @@ export default {
 }
 .btn {
   margin: 30px;
+  margin-right: 0;
   font-size: 32px;
-  padding: 15px;
+  height: 80px;
+  line-height: 15px;
+  padding: 0 30px;
   color:lightsalmon;
   border: none;
   border-radius: 13px;
